@@ -6,54 +6,54 @@ var router = express.Router();
 let tasks =[];
 let currentId = 1;
 
-router.get('/', function(req, res, next) {
+router.get('/tasks', function(req, res, next) {
   res.json(tasks);
 });
 
 
-// router.get('/tasks', function(req, res, next) {
-//   const page = parseInt(req.query.page, 10) || 1;
-//   const limit = parseInt(req.query.limit, 10) || 10;
-//   const sortBy = req.query.sortBy || 'id';
-//   const order = req.query.order === 'desc' ? -1 : 1;
-//   const filter = req.query.filter || {};
+router.get('/tasks', function(req, res, next) {
+  const page = parseInt(req.query.page, 10) || 1;
+  const limit = parseInt(req.query.limit, 10) || 10;
+  const sortBy = req.query.sortBy || 'id';
+  const order = req.query.order === 'desc' ? -1 : 1;
+  const filter = req.query.filter || {};
 
-//   // Filtering
-//   let filteredTasks = tasks.filter(task => {
-//     let isMatch = true;
-//     for (let key in filter) {
-//       if (task[key] && task[key] !== filter[key]) {
-//         isMatch = false;
-//       }
-//     }
-//     return isMatch;
-//   });
+  // Filtering
+  let filteredTasks = tasks.filter(task => {
+    let isMatch = true;
+    for (let key in filter) {
+      if (task[key] && task[key] !== filter[key]) {
+        isMatch = false;
+      }
+    }
+    return isMatch;
+  });
 
-//   // Sorting
-//   filteredTasks.sort((a, b) => {
-//     if (a[sortBy] < b[sortBy]) {
-//       return -1 * order;
-//     }
-//     if (a[sortBy] > b[sortBy]) {
-//       return 1 * order;
-//     }
-//     return 0;
-//   });
+  // Sorting
+  filteredTasks.sort((a, b) => {
+    if (a[sortBy] < b[sortBy]) {
+      return -1 * order;
+    }
+    if (a[sortBy] > b[sortBy]) {
+      return 1 * order;
+    }
+    return 0;
+  });
 
-//   // Pagination
-//   const startIndex = (page - 1) * limit;
-//   const endIndex = page * limit;
-//   const paginatedTasks = filteredTasks.slice(startIndex, endIndex);
+  // Pagination
+  const startIndex = (page - 1) * limit;
+  const endIndex = page * limit;
+  const paginatedTasks = filteredTasks.slice(startIndex, endIndex);
 
-//   res.json({
-//     page,
-//     limit,
-//     totalTasks: filteredTasks.length,
-//     tasks: paginatedTasks,
-//   });
-// });
+  res.json({
+    page,
+    limit,
+    totalTasks: filteredTasks.length,
+    tasks: paginatedTasks,
+  });
+});
 
-router.get('/:id', function(req,res,next){
+router.get('/tasks/:id', function(req,res,next){
       const id = Number(req.params.id);
       const task = tasks.find((task)=> task.id ===id );
 
@@ -66,7 +66,7 @@ router.get('/:id', function(req,res,next){
   
 })
 
-router.post('/', function(req,res,next){
+router.post('/tasks', function(req,res,next){
   const task = {
       id: currentId++,
       title: req.body.title,
@@ -77,7 +77,7 @@ router.post('/', function(req,res,next){
   res.status(201).json(task );
 })
 
-router.put('/:id', function(req, res, next) {
+router.put('/tasks/:id', function(req, res, next) {
   const id = Number(req.params.id);
   const task = tasks.find((task) => task.id === id);
 
@@ -98,7 +98,7 @@ router.put('/:id', function(req, res, next) {
   }
 });
 
-router.delete('/:id', function(req, res, next) {
+router.delete('/tasks/:id', function(req, res, next) {
   const id = Number(req.params.id);
   const task = tasks.find((task) => task.id === id);
 
